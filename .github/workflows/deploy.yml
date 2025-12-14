@@ -27,9 +27,9 @@ jobs:
           docker build -t $IMAGE_NAME:${{ github.sha }} .
           docker push $IMAGE_NAME:${{ github.sha }}
 
-      - name: Deploy via API (example)
+      - name: Deploy via API (stub for учебный проект)
         run: |
           IMAGE_NAME=ghcr.io/$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
-          curl -X POST https://api.cloudprovider/deploy \
-            -H "Authorization: Bearer ${{ secrets.CLOUD_TOKEN }}" \
-            -d "image=$IMAGE_NAME:${{ github.sha }}"
+          echo "Deploy request would be sent with image=$IMAGE_NAME:${{ github.sha }}"
+          echo "CLOUD_TOKEN is set: ${{ secrets.CLOUD_TOKEN != '' }}"
+
