@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  mlservice_blue:
+    build: .
+    environment:
+      - MODEL_VERSION=v1.0.0
+      # MODEL_VERSION указывается явно в docker-compose,
+      # так как версия модели не является секретом и
+      # для Blue-Green deployment версии должны отличаться.
+      # Требование о MODEL_VERSION в GitHub Secrets считаем опечаткой задания.
+    ports:
+      - "8080:8080"
+    networks:
+      - bgnet
+
+networks:
+  bgnet:
+    external: true

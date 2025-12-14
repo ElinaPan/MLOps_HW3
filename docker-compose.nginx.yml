@@ -1,0 +1,15 @@
+#version: "3.8"
+
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8086:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - bgnet
+
+networks:
+  bgnet:
+    external: true

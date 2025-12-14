@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  mlservice_green:
+    build: .
+    environment:
+      - MODEL_VERSION=v1.1.0
+    ports:
+      - "8081:8080"
+    networks:
+      - bgnet
+
+networks:
+  bgnet:
+    external: true
