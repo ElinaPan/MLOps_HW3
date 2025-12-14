@@ -4,24 +4,30 @@ on:
   push:
     branches: [ master, main ]
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Login to GHCR
+      - name: Login to GitHub Container Registry
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: Build and push Docker image
         run: |
           IMAGE_NAME=ghcr.io/$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          echo "Using image: $IMAGE_NAME:${{ github.sha }}"
           docker build -t $IMAGE_NAME:${{ github.sha }} .
           docker push $IMAGE_NAME:${{ github.sha }}
 
-      - name: Deploy via API
+      - name: Deploy via API (example)
         run: |
           IMAGE_NAME=ghcr.io/$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
           curl -X POST https://api.cloudprovider/deploy \
